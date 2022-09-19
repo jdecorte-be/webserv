@@ -2,6 +2,19 @@
 #include "../parsing/requete.hpp"
 #include "../parsing/webserv.hpp"
 
+static char *ft_strnstr(const char *haystack, const char *needle, size_t len)
+{
+	size_t needle_len = strlen(needle);
+	if (needle_len == 0)
+		return (char *)haystack;
+	for (size_t i = 0; i + needle_len <= len; i++)
+	{
+		if (strncmp(haystack + i, needle, needle_len) == 0)
+			return (char *)(haystack + i);
+	}
+	return NULL;
+}
+
 bool is_request_done(char *request, size_t header_size, size_t sizereq)
 {
     size_t sizebody = sizereq - header_size;
@@ -10,15 +23,15 @@ bool is_request_done(char *request, size_t header_size, size_t sizereq)
 	if (!body)
 		return false;
 	body += 4;
-	if (strnstr(request, "chunked", sizereq - sizebody))
+	if (ft_strnstr(request, "chunked", sizereq - sizebody))
 	{
 		if (strstr(body, "\r\n\r\n"))
 			return true;
 		return false;
 	}
-	else if (strnstr(request, "Content-Length", sizereq - sizebody))
+	else if (ft_strnstr(request, "Content-Length", sizereq - sizebody))
 	{
-		char *start = strnstr(request, "Content-Length: ", sizereq - sizebody) + 16;
+		char *start = ft_strnstr(request, "Content-Length: ", sizereq - sizebody) + 16;
 		char *end = strstr(start, "\r\n");
 		char *len = strndup(start, end - start);
 		int len_i = atoi(len);
@@ -27,7 +40,7 @@ bool is_request_done(char *request, size_t header_size, size_t sizereq)
 			return true;
 		return false;
 	}
-	else if (strnstr(request, "boundary=", sizereq - sizebody))
+	else if (ft_strnstr(request, "boundary=", sizereq - sizebody))
 	{
 		if (strstr(body, "\r\n\r\n"))
 			return true;
@@ -141,7 +154,7 @@ void Server::handleRequest()
                     query = urlrcv.substr(pos, urlrcv.size());
                     urlrcv = urlrcv.substr(0, pos);
                 }
-                if(requete.getLen() != std::string::npos && requete.getLen() > (size_t)stoi(servers[clients[i].getNServer()]->getBody()))
+                if(requete.getLen() != std::string::npos && requete.getLen() > (size_t)atoi(servers[clients[i].getNServer()]->getBody().c_str()))
                 {
                     showError(413, clients[i]);
                     if(kill_client(clients[i], requete))
@@ -296,7 +309,7 @@ void Server::postMethod(Client client, std::string url, Requete req)
         if(!(req.getHeader()["Content-Type"].empty()) && !(req.getBoundary().empty()))
         {
             std::cout << colors::on_cyan <<  "Post in directory : " << colors::on_grey << colors::green << std::endl;
-            for(int i = 0; true; i++)
+            for(;;)
             {
                 if((start = body.find("name=\"", start)) == std::string::npos)
                     break ;

@@ -1,4 +1,5 @@
 #include "server/server.hpp"
+#include <csignal>
 
 Server serv;
 

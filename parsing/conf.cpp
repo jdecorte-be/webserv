@@ -267,7 +267,7 @@ void Conf::is_directive(std::string line, int pos)
 /* Fill data will all read lines Insert in _file all lines except empty line */
 void Conf::read_file(std::string name)
 {
-	std::ifstream file(name);
+	std::ifstream file(name.c_str());
 	std::string output;
 
 	while (std::getline(file, output))

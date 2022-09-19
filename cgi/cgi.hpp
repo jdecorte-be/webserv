@@ -9,6 +9,8 @@
 #include <stdlib.h>
 #include <climits>
 #include <sys/stat.h>
+#include <sys/wait.h>
+#include <sstream>
 
 #include "../parsing/webserv.hpp"
 #include "../parsing/requete.hpp"

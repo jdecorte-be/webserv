@@ -2,6 +2,20 @@
 #include "../parsing/requete.hpp"
 #include "../parsing/webserv.hpp"
 
+static std::string int_to_string(int n)
+{
+    std::ostringstream oss;
+    oss << n;
+    return oss.str();
+}
+
+static std::string size_to_string(size_t n)
+{
+    std::ostringstream oss;
+    oss << n;
+    return oss.str();
+}
+
 void Server::initServer()
 {
     for(size_t i = 0; i < servers.size(); i++)
@@ -34,18 +48,19 @@ void Server::initServer()
 void Server::showError(int err, Client &client)
 {
     std::map<std::string , std::string> errpages = servers[client.getNServer()]->getError();
-    if(errpages.find(std::to_string(err)) != errpages.end())
+    std::string err_str = int_to_string(err);
+    if(errpages.find(err_str) != errpages.end())
     {
-        int fd = open(errpages[std::to_string(err)].c_str(), O_RDONLY);
+        int fd = open(errpages[err_str].c_str(), O_RDONLY);
         if(fd < 0)
         {
             std::cout << colors::on_bright_red << "Show error : " << errors[err] << " !" << colors::on_grey << std::endl;
-            std::cout << colors::on_bright_red << "Pre-Config Error Page don't exist : " << errpages[std::to_string(err)] << colors::on_grey << std::endl;
+            std::cout << colors::on_bright_red << "Pre-Config Error Page don't exist : " << errpages[err_str] << colors::on_grey << std::endl;
             close(fd);
             return ;
         }
         close(fd);
-        showPage(client, errpages[std::to_string(err)], 200);
+        showPage(client, errpages[err_str], 200);
     }
     else
     {
@@ -53,7 +68,7 @@ void Server::showError(int err, Client &client)
         if(it != errors.end())
         {
             std::cout << colors::on_bright_red << "Show error : " << it->second << " !" << colors::on_grey << std::endl;
-            std::string msg = "HTTP/1.1 " + it->second + "\nContent-Type: text/plain\nContent-Length: " + std::to_string(it->second.size()) + "\n\n" + it->second + "\n";
+            std::string msg = "HTTP/1.1 " + it->second + "\nContent-Type: text/plain\nContent-Length: " + size_to_string(it->second.size()) + "\n\n" + it->second + "\n";
             int sendret = send(client.getClientSocket() , msg.c_str(), msg.size(), 0);
             if(sendret < 0)
                 std::cout << "Client disconnected" << std::endl;
@@ -178,7 +193,7 @@ void Server::showPage(Client client, std::string dir, int code)
 
         std::string type = find_type(dir);
 
-        std::string msg = "HTTP/1.1 " + errors.find(code)->second + "\n" + "Content-Type: " + type + "\nContent-Length: " + std::to_string(lSize) + "\n\n";
+        std::string msg = "HTTP/1.1 " + errors.find(code)->second + "\n" + "Content-Type: " + type + "\nContent-Length: " + int_to_string(lSize) + "\n\n";
         int ret = send(client.getClientSocket() , msg.c_str(), msg.size(), 0);
         if(ret < 0)
             showError(500, client);

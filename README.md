@@ -65,39 +65,114 @@
 </header>
 
 
-The "Webserv" project, a part of the 42 school's core curriculum, was collaboratively developed by Anastasiia-Ni and AhmadMHammoudeh. This project involves building a web server compatible with C++98 from the ground up. It's designed to handle HTTP requests such as GET, HEAD, POST, PUT, and DELETE, and can serve both static and dynamic content. The server is capable of handling multiple client connections concurrently using the select() method.
+![Webserv Banner](.assets/banner.png)
 
-## Key Features
-- **HTTP Request Handling:** Processes different types of HTTP requests and serves static or dynamic content.
-- **Concurrent Connections:** Utilizes select() for managing multiple client connections.
-- **Custom Configuration:** Allows specifying server settings via a configuration file.
-- **CGI Support:** Integrates CGI for dynamic content generation.
+Webserv is a from-scratch HTTP/1.1 web server implemented in C++98. As a core project for the 42 school curriculum, it is designed to handle multiple client connections concurrently using I/O multiplexing with `select()`. The server can parse HTTP requests, serve static content, and execute CGI scripts to generate dynamic content.
 
-## Usage
-To use the server:
-```bash
-make
-./webserv [Config File] # Default configuration used if left empty.
+## ✨ Features
+
+*   **HTTP/1.1 Compliance**: Handles `GET`, `POST`, and `DELETE` requests.
+*   **C++98 Standard**: Built using only C++98 features and the C standard library, ensuring high portability.
+*   **Concurrent Connections**: Utilizes `select()` for non-blocking I/O, allowing it to efficiently manage multiple simultaneous clients.
+*   **Custom Configuration**: Server behavior is defined by a flexible configuration file, inspired by NGINX syntax. You can specify ports, server names, error pages, routes, and more.
+*   **CGI Support**: Executes CGI scripts (e.g., Python, Perl) to serve dynamic web pages and handle tasks like form submissions and file uploads.
+*   **Static File Serving**: Serves various static files, including HTML, CSS, images, and videos.
+*   **File Uploads**: Capable of handling file uploads via `POST` requests processed by CGI scripts.
+*   **Custom Error Pages**: Allows defining custom pages for different HTTP error codes.
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+*   A C++ compiler (e.g., `g++`)
+*   `make`
+
+### Installation and Execution
+
+1.  **Clone the repository:**
+    ```sh
+    git clone https://github.com/jdecorte-be/webserv.git
+    cd webserv
+    ```
+
+2.  **Compile the project:**
+    ```sh
+    make
+    ```
+
+3.  **Run the server:**
+    You can run the server with a specific configuration file or use the default one (`nginx.conf`).
+
+    *   **Using a specific configuration:**
+        ```sh
+        ./webserv nginx.conf
+        ```
+    *   **Using the default configuration:**
+        ```sh
+        ./webserv
+        ```
+
+Once running, you can access the server by navigating to `http://localhost:<port>` in your web browser, where `<port>` is the port number specified in your configuration file.
+
+## ⚙️ Configuration
+
+The server is configured using a file with a syntax similar to NGINX. A `server` block defines a virtual server, and `location` blocks define how to handle requests for different URIs.
+
+### Example Configuration
+
+Here is a basic example of a server configuration:
+
+```nginx
+server {
+    listen              8080;
+    server_name         localhost;
+    root                ./www;
+    index               index.html;
+    client_max_body_size 10M;
+
+    error_page 404 /error/error404.html;
+
+    location / {
+        allow_methods GET;
+    }
+
+    location /cgi-bin {
+        allow_methods GET POST;
+        cgi_pass .py /usr/bin/python; # Execute .py files with the python interpreter
+        cgi_pass .pl /usr/bin/perl;   # Execute .pl files with the perl interpreter
+    }
+
+    location /upload {
+        allow_methods POST;
+        root ./www/upload;
+    }
+}
 ```
 
-## Components
-- **Server Core:** Manages TCP connections, sockets, and data flow.
-- **Request Parser:** Interprets HTTP requests, extracting methods, paths, headers, and bodies.
-- **Response Builder:** Constructs HTTP responses with appropriate headers and content.
-- **Configuration File:** Allows customization of server operations and settings.
-- **CGI Integration:** Facilitates dynamic content generation through external scripts.
+See the `nginx.conf` file and the examples in the `conf/` directory for more details.
 
-## Working Principles
-- **HTTP Basics:** The server operates on standard HTTP protocols, processing requests and responses.
-- **I/O Multiplexing:** Utilizes I/O multiplexing for efficient handling of multiple requests.
-- **Error Handling:** Capable of identifying and responding to various request errors.
+## 📁 Project Structure
 
-## Resources and Learning
-- **Networking and HTTP Guides:** Various resources for understanding HTTP server fundamentals and networking concepts.
-- **RFC References:** Links to relevant RFCs for in-depth protocol knowledge.
-- **CGI Tutorials:** Learning resources for CGI implementation in web programming.
-- **Support Tools:** Tools like Postman and Wireshark recommended for testing and analysis.
-- **Additional References:** Links to StackOverflow discussions, encoding guides, and other useful resources.
+The repository is organized as follows:
 
-## Conclusion
-This project encapsulates the essentials of a functional HTTP server, providing a comprehensive understanding of web server architecture, HTTP protocols, networking, and server-side scripting. It's a hands-on approach to learning the intricacies of web server development.
+```
+.
+├── conf/             # Example configuration files
+├── server/           # Core server and socket logic
+├── parsing/          # HTTP request and configuration parsing
+├── cgi/              # CGI handling implementation
+├── utils/            # Utility functions
+├── www/              # Default web root directory
+│   ├── cgi-bin/      # Example CGI scripts
+│   ├── error/        # Custom error pages
+│   └── ...           # Static assets (HTML, images, etc.)
+├── main.cpp          # Main entry point
+└── Makefile          # Build script
+```
+
+## 🤝 Acknowledgements
+
+This project was collaboratively developed by:
+
+*   **Anastasiia-Ni** ([@Anastasiia-Ni](https://github.com/Anastasiia-Ni))
+*   **AhmadMHammoudeh** ([@AhmadMHammoudeh](https://github.com/AhmadMHammoudeh))

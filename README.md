@@ -65,7 +65,6 @@
 </header>
 
 
-![Webserv Banner](.assets/banner.png)
 
 Webserv is a from-scratch HTTP/1.1 web server implemented in C++98. As a core project for the 42 school curriculum, it is designed to handle multiple client connections concurrently using I/O multiplexing with `select()`. The server can parse HTTP requests, serve static content, and execute CGI scripts to generate dynamic content.
 
@@ -169,10 +168,3 @@ The repository is organized as follows:
 ├── main.cpp          # Main entry point
 └── Makefile          # Build script
 ```
-
-## 🤝 Acknowledgements
-
-This project was collaboratively developed by:
-
-*   **Anastasiia-Ni** ([@Anastasiia-Ni](https://github.com/Anastasiia-Ni))
-*   **AhmadMHammoudeh** ([@AhmadMHammoudeh](https://github.com/AhmadMHammoudeh))

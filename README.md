@@ -64,17 +64,6 @@
 </p>
 </header>
 
-<p align="center">
-	<b><i>HTTP (Hypertext Transfer Protocol)</i></b><br>
-</p>
-
-<p align="center">
-	<img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/jdecorte-be/42-Webserv?color=lightblue" />
-	<img alt="Number of lines of code" src="https://img.shields.io/tokei/lines/github/jdecorte-be/42-Webserv?color=critical" />
-	<img alt="Code language count" src="https://img.shields.io/github/languages/count/jdecorte-be/42-Webserv?color=yellow" />
-	<img alt="GitHub top language" src="https://img.shields.io/github/languages/top/jdecorte-be/42-Webserv?color=blue" />
-	<img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/jdecorte-be/42-Webserv?color=green" />
-</p>
 
 The "Webserv" project, a part of the 42 school's core curriculum, was collaboratively developed by Anastasiia-Ni and AhmadMHammoudeh. This project involves building a web server compatible with C++98 from the ground up. It's designed to handle HTTP requests such as GET, HEAD, POST, PUT, and DELETE, and can serve both static and dynamic content. The server is capable of handling multiple client connections concurrently using the select() method.
 

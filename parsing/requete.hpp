@@ -22,6 +22,7 @@
 # include <unistd.h>
 # include <string.h>
 # include <fstream>
+# include <cstdlib>
 
 
 class Requete

@@ -62,7 +62,11 @@ void newEnv(char **envp, Requete &req, std::vector<std::string> &my_env, Servers
         my_env.push_back("REQUEST_METHOD=" + req.getMethod());
 
     if (req.getLen())
-        my_env.push_back("CONTENT_LENGTH=" + std::to_string(req.getLen()));
+    {
+        std::ostringstream oss;
+        oss << req.getLen();
+        my_env.push_back("CONTENT_LENGTH=" + oss.str());
+    }
     
     if (!req.getProtocol().empty())
         my_env.push_back("SERVER_SOFTWARE=" + req.getProtocol());

@@ -67,15 +67,15 @@ void Requete::make_POST(std::stringstream& ss)
 		{
 			if (!key.empty() && !line.empty() && key != token)
 			{
-				if (line.back() == ' ')
-					line.pop_back();//remove space 
+				if (line[line.size() - 1] == ' ')
+					line.erase(line.size() - 1);//remove space 
 				_header.insert(std::pair<std::string, std::string>(key, line));
 				line.clear();
 			}
 			key = token;
 			ss >> token;
 			_header.insert(std::pair<std::string, std::string>(key, token));
-			_len = atoi(token.c_str());
+			_len = std::atoi(token.c_str());
 			key.clear();
 		}
 		else if (_request.find(token) >= pos - token.length())
@@ -84,7 +84,7 @@ void Requete::make_POST(std::stringstream& ss)
 			if (!key.empty() && key != token)
 			{
 				if (!line.empty())
-					line.pop_back();//remove space
+					line.erase(line.size() - 1);//remove space
 				if (!line.empty())
 				{
 					_header.insert(std::pair<std::string, std::string>(key, line));
@@ -108,15 +108,15 @@ void Requete::make_POST(std::stringstream& ss)
 			}
 			break;
 		}
-		else if (token.back() == ':')
+		else if (token[token.size() - 1] == ':')
 		{
 			if (!key.empty() && key != token)
 			{
-				if (line.back() == ' ')
-					line.pop_back();
+				if (line[line.size() - 1] == ' ')
+					line.erase(line.size() - 1);
 				_header.insert(std::pair<std::string, std::string>(key, line));
 			}
-			token.pop_back();
+			token.erase(token.size() - 1);
 			key = token;
 			line.clear();
 		}
@@ -136,15 +136,15 @@ void Requete::make_GET(std::stringstream& ss)
 
 	while (ss >> token)
 	{
-		if (token.back() == ':')
+		if (token[token.size() - 1] == ':')
 		{
 			if (!key.empty() && !line.empty() && key != token)
 			{
-				if (line.back() == ' ')
-					line.pop_back();
+				if (line[line.size() - 1] == ' ')
+					line.erase(line.size() - 1);
 				_header.insert(std::pair<std::string, std::string>(key, line));
 			}
-			token.pop_back();
+			token.erase(token.size() - 1);
 			key = token;
 			line.clear();
 		}
@@ -157,8 +157,8 @@ void Requete::make_GET(std::stringstream& ss)
 	}
 	if (!line.empty() && !key.empty())
 	{
-		if (line.back() == ' ')
-			line.pop_back();
+		if (line[line.size() - 1] == ' ')
+			line.erase(line.size() - 1);
 		_header.insert(std::pair<std::string, std::string>(key, line));
 	}
 	

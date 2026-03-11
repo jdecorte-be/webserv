@@ -1,7 +1,7 @@
 #include "socket.hpp"
 
 void Socket::setup(std::string port, std::string ip) {
-    int port_int = stoi(port);
+    int port_int = atoi(port.c_str());
     struct sockaddr_in address;
     address.sin_family = AF_INET;
     address.sin_addr.s_addr = htonl(INADDR_ANY);

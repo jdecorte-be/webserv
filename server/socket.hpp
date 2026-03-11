@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include <vector>
 #include <iostream>
+#include <cstdlib>
 
 #include "../client/client.hpp"
 #include "../utils/colors.hpp"

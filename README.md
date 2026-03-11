@@ -1,6 +1,68 @@
+<header>
 <h1 align="center">
-	📖 Webserv
+  <a href="https://github.com/jdecorte-be/webserv"><img src=".assets/banner.png" alt="webserv" ></a>
+  webserv
+  <br>
 </h1>
+
+<p align="center">
+  A from-scratch HTTP/1.1 web server in C++98. This 42 school project handles concurrent clients with select(), parses requests, and supports CGI for dynamic cont
+</p>
+
+<p align="center">
+<a href="https://www.42.fr/">
+    <img src="https://img.shields.io/badge/School-42-00B8D4?logo=42&logoColor=white&labelColor=000000"
+         alt="School 42">
+  </a>
+<a href="https://github.com/jdecorte-be/webserv">
+    <img src="https://img.shields.io/badge/Type-HTTP%2F1.1%20Server-F08D3A?logo=nginx&logoColor=white&labelColor=000000"
+         alt="Type HTTP/1.1 Server">
+  </a>
+<a href="https://isocpp.org/std/the-standard">
+    <img src="https://img.shields.io/badge/Standard-C%2B%2B98-00599C?logo=cplusplus&logoColor=white&labelColor=000000"
+         alt="Standard C++98">
+  </a>
+<a href="https://en.wikipedia.org/wiki/I/O_multiplexing">
+    <img src="https://img.shields.io/badge/Focus-I%2FO%20Multiplexing-4D76A4?logo=gnubash&logoColor=white&labelColor=000000"
+         alt="Focus I/O Multiplexing">
+  </a>
+</p>
+
+<p align="center">
+<a href="https://en.wikipedia.org/wiki/Common_Gateway_Interface">
+    <img src="https://img.shields.io/badge/Feature-CGI-33B579?logo=python&logoColor=white&labelColor=000000"
+         alt="Feature CGI">
+  </a>
+  <a href="https://github.com/jdecorte-be/webserv">
+    <img src="https://img.shields.io/badge/Type-CLI-informational?logo=terminal&logoColor=white&labelColor=000000&color=66D9EF"
+         alt="webserv cli">
+  </a>
+  <a href="https://github.com/jdecorte-be/webserv">
+    <img src="https://img.shields.io/badge/Service-API-blue?logo=fastapi&logoColor=white&labelColor=000000&color=A6E22E"
+         alt="webserv api">
+  </a>
+  <a href="https://github.com/jdecorte-be/webserv/stargazers">
+    <img src="https://img.shields.io/github/stars/jdecorte-be/webserv?logo=star&logoColor=white&labelColor=000000&color=E6DB74"
+         alt="webserv stars">
+  </a>
+  <a href="https://github.com/jdecorte-be/webserv/issues">
+    <img src="https://img.shields.io/github/issues/jdecorte-be/webserv?logoColor=white&labelColor=000000&color=orange"
+         alt="webserv issues">
+  </a>
+  <a href="https://github.com/jdecorte-be/webserv">
+    <img src="https://img.shields.io/github/repo-size/jdecorte-be/webserv?logo=database&logoColor=white&labelColor=000000&color=AE81FF"
+         alt="webserv repo size">
+  </a>
+</p>
+<p align="center">
+  <a href="#key-features">Key Features</a> •
+  <a href="#usage">Usage</a> •
+  <a href="#components">Components</a> •
+  <a href="#working-principles">Working Principles</a> •
+  <a href="#resources-and-learning">Resources and Learning</a> •
+  <a href="#conclusion">Conclusion</a>
+</p>
+</header>
 
 <p align="center">
 	<b><i>HTTP (Hypertext Transfer Protocol)</i></b><br>

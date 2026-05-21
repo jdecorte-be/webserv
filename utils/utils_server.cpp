@@ -1,6 +1,36 @@
 #include "../server/server.hpp"
 #include "../parsing/requete.hpp"
 #include "../parsing/webserv.hpp"
+#include <errno.h>
+
+static bool send_all(int socket, const char *data, size_t len)
+{
+    size_t sent_total = 0;
+
+    while(sent_total < len)
+    {
+        int flags = 0;
+#ifdef MSG_NOSIGNAL
+        flags = MSG_NOSIGNAL;
+#endif
+        ssize_t sent = send(socket, data + sent_total, len - sent_total, flags);
+        if(sent < 0)
+        {
+            if(errno == EINTR)
+                continue;
+            if(errno == EAGAIN || errno == EWOULDBLOCK)
+            {
+                usleep(1000);
+                continue;
+            }
+            return false;
+        }
+        if(sent == 0)
+            return false;
+        sent_total += sent;
+    }
+    return true;
+}
 
 static std::string int_to_string(int n)
 {
@@ -69,11 +99,8 @@ void Server::showError(int err, Client &client)
         {
             std::cout << colors::on_bright_red << "Show error : " << it->second << " !" << colors::on_grey << std::endl;
             std::string msg = "HTTP/1.1 " + it->second + "\nContent-Type: text/plain\nContent-Length: " + size_to_string(it->second.size()) + "\n\n" + it->second + "\n";
-            int sendret = send(client.getClientSocket() , msg.c_str(), msg.size(), 0);
-            if(sendret < 0)
+            if(!send_all(client.getClientSocket(), msg.c_str(), msg.size()))
                 std::cout << "Client disconnected" << std::endl;
-            else if (sendret == 0)
-                std::cout << "0 byte passed to server" << std::endl;
         }
     }
 }
@@ -139,13 +166,13 @@ bool Server::is_allowed(std::vector<std::string> methodlist, std::string methodr
 std::string Server::getRootPatch(std::string urlrcv, int i)
 {
     std::string urlroot = servers[i]->getRoot();
-    if(urlroot[urlroot.size() - 1] == '/')
-        urlroot.erase(urlroot.size() - 1, 1);
     if(loc && !(loc->getRoot().empty()))
         urlrcv.erase(urlrcv.find(loc->getDir()), urlrcv.find(loc->getDir()) + loc->getDir().size());
 
-
-
+    if(urlroot[urlroot.size() - 1] == '/' && !urlrcv.empty() && urlrcv[0] == '/')
+        urlroot.erase(urlroot.size() - 1, 1);
+    else if(urlroot[urlroot.size() - 1] != '/' && !urlrcv.empty() && urlrcv[0] != '/')
+        urlroot += "/";
     std::cout << "Url To Send : " << colors::green << urlroot + urlrcv << std::endl;
     return urlroot + urlrcv;
 }
@@ -169,18 +196,14 @@ bool Server::is_cgi(std::string filename)
 
 void Server::showPage(Client client, std::string dir, int code)
 {
-    int r;
-
     if(dir != "")
         std::cout << colors::on_cyan << "Show Page : " << dir << colors::on_grey << std::endl;
 
     if(dir.empty())
     {
         std::string err_msg = "HTTP/1.1 " + errors[code] + "\n\n";
-        if((r = send(client.getClientSocket() , err_msg.c_str(), err_msg.size(), 0)) < 0)
+        if(!send_all(client.getClientSocket(), err_msg.c_str(), err_msg.size()))
             showError(500, client);
-        else if(r == 0)
-            showError(400, client);
         return ;
     }
     else
@@ -194,11 +217,11 @@ void Server::showPage(Client client, std::string dir, int code)
         std::string type = find_type(dir);
 
         std::string msg = "HTTP/1.1 " + errors.find(code)->second + "\n" + "Content-Type: " + type + "\nContent-Length: " + int_to_string(lSize) + "\n\n";
-        int ret = send(client.getClientSocket() , msg.c_str(), msg.size(), 0);
-        if(ret < 0)
+        if(!send_all(client.getClientSocket(), msg.c_str(), msg.size()))
+        {
             showError(500, client);
-        else if(ret == 0)
-            showError(400, client);
+            return ;
+        }
 
 
 
@@ -216,7 +239,6 @@ void Server::showPage(Client client, std::string dir, int code)
         // ==========================
 
         char file[1024];
-        int r2;
         int r = read(fd_r, file, 1024);
         if(r < 0)
             showError(500, client);
@@ -224,14 +246,9 @@ void Server::showPage(Client client, std::string dir, int code)
         {
             while(r)
             {
-                if((r2 = send(client.getClientSocket(), file, r, 0)) < 0)
+                if(!send_all(client.getClientSocket(), file, r))
                 {
-                    showError(500, client);
-                    break;
-                }
-                else if (r2 == 0)
-                {
-                    showError(400, client);
+                    std::cout << "Client disconnected while sending file" << std::endl;
                     break;
                 }
 

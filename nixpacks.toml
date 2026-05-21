@@ -1,0 +1,8 @@
+[phases.setup]
+nixPkgs = ["clang", "gnumake", "python3", "perl"]
+
+[phases.build]
+cmds = ["make"]
+
+[start]
+cmd = "./webserv dokploy.conf"

@@ -3,33 +3,168 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Resume</title>
+	<title>John Decorte</title>
 	<link rel="icon" href="/favicon.ico" sizes="any">
 	<link rel="shortcut icon" href="/favicon.ico">
 	<style>
-		html,
-		body {
-			width: 100%;
-			height: 100%;
+		:root {
+			--bg-start: #1f2329;
+			--bg-end: #12151a;
+			--card: #262b33;
+			--card-border: #363c46;
+			--text: #e6e8eb;
+			--muted: #9aa4b2;
+			--accent: #6ea8fe;
+			--accent-2: #a78bfa;
+		}
+
+		* {
+			box-sizing: border-box;
+		}
+
+		html, body {
 			margin: 0;
-			background: #1f2329;
-		}
-
-		object {
-			display: block;
-			width: 100%;
 			height: 100%;
-			border: 0;
 		}
 
-		a {
-			color: #ffffff;
+		body {
+			min-height: 100vh;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: 24px;
+			background: radial-gradient(circle at 30% 20%, #2a3040 0%, var(--bg-start) 45%, var(--bg-end) 100%);
+			font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+			color: var(--text);
+		}
+
+		.card {
+			width: 100%;
+			max-width: 360px;
+			background: var(--card);
+			border: 1px solid var(--card-border);
+			border-radius: 20px;
+			padding: 40px 32px 32px;
+			text-align: center;
+			box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+		}
+
+		.avatar {
+			width: 96px;
+			height: 96px;
+			margin: 0 auto 20px;
+			border-radius: 50%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 2rem;
+			font-weight: 700;
+			letter-spacing: 1px;
+			color: #fff;
+			background: linear-gradient(135deg, var(--accent), var(--accent-2));
+			box-shadow: 0 8px 24px rgba(110, 168, 254, 0.35);
+		}
+
+		h1 {
+			margin: 0 0 4px;
+			font-size: 1.4rem;
+			letter-spacing: 0.3px;
+		}
+
+		.tagline {
+			margin: 0 0 28px;
+			color: var(--muted);
+			font-size: 0.92rem;
+		}
+
+		.links {
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+		}
+
+		.links a {
+			display: flex;
+			align-items: center;
+			gap: 12px;
+			padding: 11px 16px;
+			border-radius: 12px;
+			background: rgba(255, 255, 255, 0.03);
+			border: 1px solid var(--card-border);
+			color: var(--text);
+			text-decoration: none;
+			font-size: 0.92rem;
+			transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+		}
+
+		.links a:hover {
+			background: rgba(110, 168, 254, 0.12);
+			border-color: var(--accent);
+			transform: translateY(-1px);
+		}
+
+		.links svg {
+			width: 18px;
+			height: 18px;
+			flex-shrink: 0;
+			fill: var(--muted);
+			transition: fill 0.15s ease;
+		}
+
+		.links a:hover svg {
+			fill: var(--accent);
+		}
+
+		.links span {
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+
+		.print-link {
+			margin-top: 24px;
+		}
+
+		.print-link a {
+			color: var(--muted);
+			font-size: 0.8rem;
+			text-decoration: none;
+			border-bottom: 1px dotted var(--card-border);
+		}
+
+		.print-link a:hover {
+			color: var(--accent);
 		}
 	</style>
 </head>
 <body>
-	<object data="/resume.pdf" type="application/pdf">
-		<a href="/resume.pdf">Open resume PDF</a>
-	</object>
+	<div class="card">
+		<div class="avatar">JD</div>
+		<h1>John Decorte</h1>
+		<p class="tagline">Software Engineer &middot; Belgium</p>
+
+		<div class="links">
+			<a href="https://github.com/jdecorte-be" target="_blank" rel="noopener">
+				<svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+				<span>github.com/jdecorte-be</span>
+			</a>
+			<a href="https://www.linkedin.com/in/john-decorte/" target="_blank" rel="noopener">
+				<svg viewBox="0 0 16 16"><path d="M13.5 0h-11A2.5 2.5 0 0 0 0 2.5v11A2.5 2.5 0 0 0 2.5 16h11a2.5 2.5 0 0 0 2.5-2.5v-11A2.5 2.5 0 0 0 13.5 0zM4.94 13.44H2.4V6h2.54v7.44zM3.67 4.9a1.47 1.47 0 1 1 0-2.94 1.47 1.47 0 0 1 0 2.94zM13.6 13.44h-2.53V9.83c0-.86-.02-1.97-1.2-1.97-1.2 0-1.39.94-1.39 1.91v3.67H6.14V6h2.44v1.02h.03c.34-.64 1.17-1.32 2.4-1.32 2.57 0 3.04 1.69 3.04 3.89v3.85z"/></svg>
+				<span>linkedin.com/in/john-decorte</span>
+			</a>
+			<a href="mailto:jdecorte@proton.me">
+				<svg viewBox="0 0 16 16"><path d="M1.5 3A1.5 1.5 0 0 0 0 4.5v7A1.5 1.5 0 0 0 1.5 13h13a1.5 1.5 0 0 0 1.5-1.5v-7A1.5 1.5 0 0 0 14.5 3h-13zM1 4.7l6.6 4.13a.8.8 0 0 0 .8 0L15 4.7V11.5a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5V4.7zm.29-1.2h13.42L8 7.5 1.29 3.5z"/></svg>
+				<span>jdecorte@proton.me</span>
+			</a>
+			<a href="https://jdecorte.com" target="_blank" rel="noopener">
+				<svg viewBox="0 0 16 16"><path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zM1.5 8c0-.62.09-1.22.25-1.79l3.02 3.02c-.06.24-.09.5-.09.77 0 1.24.72 2.31 1.76 2.82l-.9 2.62A6.51 6.51 0 0 1 1.5 8zm5.5 6.47l1-2.9a2.99 2.99 0 0 0 2.4-2.94c0-.27-.03-.53-.09-.77l3.02-3.02c.16.57.25 1.17.25 1.79a6.5 6.5 0 0 1-5.5 6.42l-1.08.42zM8 1.5c1.09 0 2.11.28 3 .78L7.9 5.36a3 3 0 0 0-1.8 0L2.99 2.28A6.47 6.47 0 0 1 8 1.5z"/></svg>
+				<span>jdecorte.com</span>
+			</a>
+		</div>
+
+		<div class="print-link">
+			<a href="/resume.pdf">Download full resume (PDF)</a>
+		</div>
+	</div>
 </body>
 </html>
